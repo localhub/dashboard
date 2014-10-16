@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<style>
+html {
+	font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+body {
+	margin: 4em auto;
+	max-width: 40em;
+}
+
+h1 {
+	text-align: center;
+}
+
+h2 {
+	background: rgba(0, 0, 0, 0.1);
+	padding: 0.25em 0.5em;
+	border-radius: 0.2em;
+}
+
+h3 {
+	margin: 0;
+}
+
+#jobs {
+	list-style: none;
+	padding: 0;
+}
+
+#jobs > li {
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	padding: 1em;
+}
+
+#jobs > li:not(:last-child) {
+	border-bottom: none;
+}
+
+#jobs > li:first-child {
+	border-top-left-radius: 1em;
+	border-top-right-radius: 1em;
+}
+
+#jobs > li:last-child {
+	border-bottom-left-radius: 1em;
+	border-bottom-right-radius: 1em;
+}
+
+.jobStatus {
+	float: right;
+}
+
+.jobStatus.running {
+	color: green;
+}
+
+</style>
+<h1>homed</h1>
+<h2>Jobs</h2>
+<ul id=jobs>
+	<li>
+		<div class="jobStatus running">Running</div>
+		<h3 class=jobName>homecp</h3>
+	</li>
+</ul>
