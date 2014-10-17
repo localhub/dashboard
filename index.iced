@@ -1,9 +1,8 @@
 net = require 'net'
-readline = require 'readline'
 controlSock = new net.Socket {
 	fd: 3, readable: true, writable: true
 }
-control = readline.createInterface controlSock, controlSock
+controlSock.on 'error', ->
 
 express = require 'express'
 app = express()

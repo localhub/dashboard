@@ -55,12 +55,76 @@ h3 {
 	color: green;
 }
 
+#jobs > li#newJob {
+	background: #eee;
+	padding: 0.25em;
+	text-align: center;
+	font-size: 1.5em;
+	cursor: pointer;
+}
+
 </style>
-<h1>homed</h1>
-<h2>Jobs</h2>
+<h1 id=baseURLHeading></h1>
 <ul id=jobs>
 	<li>
 		<div class="jobStatus running">Running</div>
-		<h3 class=jobName>homecp</h3>
+		<h3 class=jobName><a class=jobLink>homecp</a></h3>
 	</li>
+	<li id=newJob>+</li>
 </ul>
+<script>
+var baseURL = location.host.match(/^[^.]+(\..*)$/)[1];
+baseURLHeading.textContent = '*' + baseURL;
+
+var Views = {
+	Job: function(){
+		function Job() {
+			this.el = document.createElement('li');
+			this.els = {
+				status: document.createElement('div'),
+				name: document.createElement('h3'),
+				nameLink: document.createElement('a')
+			};
+			this.els.status.classList.add('jobStatus');
+			this.els.name.classList.add('jobName');
+			this.els.nameLink.classList.add('jobLink');
+
+			this.el.appendChild(this.els.status);
+			this.els.name.appendChild(this.els.nameLink);
+			this.el.appendChild(this.els.name);
+		}
+
+		Job.prototype = {
+			get name() {
+				return this.els.nameLink.textContent;
+			},
+			set name(val) {
+				this.els.nameLink.textContent = val;
+				if (this.linked) { this.linked = true; }
+			},
+			get linked() {
+				return this.els.nameLink.hasAttribute('href');
+			},
+			set linked(val) {
+				if (val) {
+					this.els.nameLink.href = location.protocol + '//' + this.name + baseURL;
+				} else {
+					this.els.nameLink.removeAttribute('href');
+				}
+			}
+		};
+
+		return Job;
+	}()
+};
+
+newJob.addEventListener('click', function(){
+	var repo = prompt('Git repository URL:');
+	if (!repo) { return; }
+	var name = prompt('Pick a subdomain:');
+
+	var jobView = new Views.Job();
+	jobView.name = name;
+	jobs.insertBefore(jobView.el, newJob);
+});
+</script>
